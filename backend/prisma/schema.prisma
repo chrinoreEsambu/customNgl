@@ -38,8 +38,8 @@ enum Role{
 }
 model Users{
   id String @id @default(uuid())
-  role Role @default(user)
   name String
+  role Role @default(user)
   email String @unique
   password String @unique
 }
