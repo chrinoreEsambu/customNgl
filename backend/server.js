@@ -1,11 +1,19 @@
 const express = require("express");
 const app = express();
-const bodyparser = require("body-parser");
 const path = require("path");
+const {
+  middleware,
+  middleset,
+  allowCors,
+  validate,
+} = require("./middleware/middleware");
 require("dotenv").config();
 
-
 const port = process.env.port || 5000;
+
+app.use(middleset);
+app.use(allowCors);
+app.use(validate);
 
 (async () => {
   try {
