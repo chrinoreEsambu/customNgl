@@ -6,14 +6,16 @@ const {
   middleset,
   allowCors,
   validate,
+  schekrole,
 } = require("./middleware/middleware");
 require("dotenv").config();
-
-const port = process.env.port || 5000;
 
 app.use(middleset);
 app.use(allowCors);
 app.use(validate);
+app.use(schekrole);
+
+const port = process.env.port || 5000;
 
 (async () => {
   try {

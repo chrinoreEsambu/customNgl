@@ -10,15 +10,12 @@ const allowOrigin = [
   "http://localhost:5173",
 ];
 
-exports.allowCors= app.use(
+exports.allowCors = app.use(
   cors({
     origin: allowOrigin,
     credentials: true,
   })
 );
-
-
-
 
 exports.validate = async (req, res, next) => {
   const { nom, mail, password, role } = req.body;
@@ -36,4 +33,21 @@ exports.validate = async (req, res, next) => {
       .json({ message: "Rôle invalide. Choisissez 'admin' ou 'users'" });
   }
   next();
+};
+
+exports.schekrole = async (req, res, next) => {
+  try {
+    const role = req.session?.role;
+    if (!role || role.toLowerCase() !== "admin") {
+      return res
+        .status(403)
+        .json({ message: "Accès réservé aux administrateurs" });
+    }
+    next();
+  } catch (error) {
+    return res.status(500).json({
+      message: "Something went wrong",
+      error: { message: error.message },
+    });
+  }
 };
