@@ -3,7 +3,6 @@ const app = express();
 const path = require("path");
 const router = require("./routes/msgroute");
 const {
-  middleware,
   middleset,
   allowCors,
   validate,
@@ -12,10 +11,8 @@ const {
 require("dotenv").config();
 
 app.use(middleset);
-// app.use(router);
 app.use(allowCors);
-app.use(validate);
-app.use(schekrole);
+app.use(router);
 
 const port = process.env.port || 5000;
 

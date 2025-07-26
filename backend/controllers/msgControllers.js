@@ -3,11 +3,31 @@ const prisma = require("../config/PrismaClient");
 
 exports.messageController = async (req, res) => {
   try {
-    const { content } = req.body;
+    const {
+      content,
+      ip,
+      city,
+      country,
+      provider,
+      browser,
+      os,
+      device,
+      timezone,
+      language,
+    } = req.body;
 
     const newContent = await prisma.message.create({
       data: {
-        content: content,
+        content,
+        ip,
+        city,
+        country,
+        provider,
+        browser,
+        os,
+        device,
+        timezone,
+        language,
       },
     });
     res.status(201).json({ message: "message envoyer", newContent });

@@ -3,7 +3,7 @@ const app = express();
 const cors = require("cors");
 const session = require("express-session");
 
-exports.middleset = app.use(express.json());
+exports.middleset = require("express").json();
 
 const allowOrigin = [
   "https://n95rp9vf-5173.euw.devtunnels.ms",
