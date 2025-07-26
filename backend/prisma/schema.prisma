@@ -12,9 +12,34 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
-model Message{
+model Message {
+  id_message     String   @id @default(uuid())
+  content        String
+  ip             String?
+  city           String?
+  country        String?
+  provider       String?
+  browser        String?
+  os             String?      
+  device         String?      
+  timezone       String?
+  language       String?
+  localTime      DateTime?
+  sentAt         DateTime     @default(now()) 
+
+}
+
+enum Role{
+  user
+  admin
+}
+model Users{
   id String @id @default(uuid())
-  
+  role Role @default(user)
+  name String
+  email String @unique
+  password String @unique
 }
