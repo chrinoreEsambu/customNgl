@@ -21,12 +21,12 @@ exports.messageController = async (req, res) => {
         ip: ip,
         city: city,
         country: country,
-        provider: rovider,
-        browser: browser,
-        os: os,
-        device: device,
-        timezone: timezone,
-        language: language,
+        provider: provider,
+        browser: browser, //frontend part
+        os: os, //frontend part
+        device: device, //frontend part
+        timezone: timezone, //frontend part
+        language: language, //frontend part
       },
     });
     res.status(201).json({ message: "message envoyer", newContent });
