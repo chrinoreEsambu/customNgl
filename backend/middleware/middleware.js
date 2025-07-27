@@ -35,7 +35,7 @@ exports.validate = async (req, res, next) => {
       .status(400)
       .json({ message: "Tous les champs sont obligatoires" });
   }
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail)) {
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return res.status(400).json({ message: "Format d'email invalide" });
   }
 
