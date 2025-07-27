@@ -7,13 +7,16 @@ const {
   allowCors,
   validate,
   schekrole,
+  usersession,
 } = require("./middleware/middleware");
 require("dotenv").config();
 
 app.use(middleset);
 app.use(allowCors);
 app.use(router);
+app.use(usersession);
 
+app.use(validate);
 const port = process.env.port || 5000;
 
 (async () => {

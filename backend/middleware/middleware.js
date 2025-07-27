@@ -17,9 +17,20 @@ exports.allowCors = app.use(
   })
 );
 
+exports.usersession = session({
+  secret: "votre_clef_secrete_supersecrete",
+  resave: false,
+  sameSite: "lax",
+  saveUninitialized: false,
+  cookie: {
+    httpOnly: true,
+    secure: false,
+    // maxAge: 1000 * 60 * 60,
+  },
+});
 exports.validate = async (req, res, next) => {
-  const { nom, mail, password, role } = req.body;
-  if (!nom || !mail || !password) {
+  const { email, password } = req.body;
+  if (!email || !password) {
     return res
       .status(400)
       .json({ message: "Tous les champs sont obligatoires" });
@@ -27,11 +38,7 @@ exports.validate = async (req, res, next) => {
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail)) {
     return res.status(400).json({ message: "Format d'email invalide" });
   }
-  if (role && role !== "admin" && role !== "users") {
-    return res
-      .status(400)
-      .json({ message: "Rôle invalide. Choisissez 'admin' ou 'users'" });
-  }
+
   next();
 };
 
