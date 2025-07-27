@@ -16,21 +16,22 @@ datasource db {
 }
 
 model Message {
-  id_message     String   @id @default(uuid())
-  content        String
-  ip             String?
-  city           String?
-  country        String?
-  provider       String?
-  browser        String?
-  os             String?      
-  device         String?      
-  timezone       String?
-  language       String?
-  localTime      DateTime?
-  sentAt         DateTime     @default(now()) 
-
+  id_message String   @id @default(uuid())
+  content    String
+  ip         String?
+  city       String?
+  country    String?
+  provider   String?
+  browser    String?
+  os         String?
+  device     String?
+  timezone   String?
+  language   String?
+  latitude   Float?   
+  longitude  Float?   
+  createdAt  DateTime @default(now())
 }
+
 
 enum Role{
   user

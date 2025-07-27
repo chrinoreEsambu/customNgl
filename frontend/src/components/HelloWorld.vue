@@ -1,43 +1,56 @@
-<script setup>
-import { ref } from 'vue'
-
-defineProps({
-  msg: String,
-})
-
-const count = ref(0)
-</script>
-
 <template>
-  <h1>{{ msg }}</h1>
-
-  <div class="card">
-    <button type="button" @click="count++">count is {{ count }}</button>
-    <p>
-      Edit
-      <code>components/HelloWorld.vue</code> to test HMR
-    </p>
+  <div>
+    <textarea
+      v-model="content"
+      placeholder="Écris ton message ici..."
+    ></textarea>
+    <button @click="sendMessage">Envoyer</button>
   </div>
-
-  <p>
-    Check out
-    <a href="https://vuejs.org/guide/quick-start.html#local" target="_blank"
-      >create-vue</a
-    >, the official Vue + Vite starter
-  </p>
-  <p>
-    Learn more about IDE Support for Vue in the
-    <a
-      href="https://vuejs.org/guide/scaling-up/tooling.html#ide-support"
-      target="_blank"
-      >Vue Docs Scaling up Guide</a
-    >.
-  </p>
-  <p class="read-the-docs">Click on the Vite and Vue logos to learn more</p>
 </template>
 
-<style scoped>
-.read-the-docs {
-  color: #888;
-}
-</style>
+<script setup>
+import { ref } from "vue";
+import axios from "axios";
+
+const content = ref("");
+
+const sendMessage = async () => {
+  try {
+    const getPosition = () => {
+      return new Promise((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(
+          (pos) => {
+            resolve({
+              latitude: pos.coords.latitude,
+              longitude: pos.coords.longitude,
+            });
+          },
+          (err) => {
+            console.warn("Localisation refusée");
+            resolve({ latitude: null, longitude: null }); // continue sans bloquer
+          }
+        );
+      });
+    };
+
+    const position = await getPosition();
+
+    const payload = {
+      content: content.value,
+      browser: navigator.userAgent,
+      os: navigator.platform,
+      device: navigator.userAgentData?.mobile ? "Mobile" : "Desktop",
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      language: navigator.language,
+      latitude: position.latitude,
+      longitude: position.longitude,
+    };
+
+    await axios.post("http://localhost:7000/api/sendmessage", payload);
+    alert("Message envoyé !");
+    content.value = "";
+  } catch (error) {
+    console.error("Erreur d'envoi :", error);
+  }
+};
+</script>

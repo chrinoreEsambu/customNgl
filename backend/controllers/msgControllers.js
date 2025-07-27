@@ -13,27 +13,35 @@ exports.messageController = async (req, res) => {
       device,
       timezone,
       language,
+      latitude,
+      longitude,
     } = req.body;
 
-    const newContent = await prisma.message.create({
+    const newMessage = await prisma.message.create({
       data: {
-        content: content,
-        ip: ip,
-        city: city,
-        country: country,
-        provider: provider,
-        browser: browser, //frontend part
-        os: os, //frontend part
-        device: device, //frontend part
-        timezone: timezone, //frontend part
-        language: language, //frontend part
+        content,
+        ip,
+        city,
+        country,
+        provider,
+        browser,
+        os,
+        device,
+        timezone,
+        language,
+        latitude,
+        longitude,
       },
     });
-    res.status(201).json({ message: "message envoyer", newContent });
+
+    res.status(201).json({
+      message: "Message envoyé avec succès",
+      data: newMessage,
+    });
   } catch (error) {
     res.status(500).json({
-      message: "something wrong happens",
-      eror: { message: error.message },
+      message: "Une erreur s'est produite lors de l'envoi du message",
+      error: error.message,
     });
   }
 };
